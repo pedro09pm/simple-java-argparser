@@ -1,22 +1,30 @@
 import org.junit.Test;
-import simple.java.argparser.Argument;
-import simple.java.argparser.ArgumentActionException;
-import simple.java.argparser.ArgumentParser;
+import simple.java.argparser.*;
+
+import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
 public class SimpleJavaArgparserTester {
     @Test
     public void testArgumentExecution() {
-        Argument argument = new Argument(new String[]{"--client"}, new String[]{"One", "Two"});
+        Argument argument = new Argument(new String[]{"--rectangle"}, new ArgumentValue[]{new ArgumentValue(ArgumentValueType.INTEGER)});
         argument.setAction(() -> {
-            for (String s: argument.getArgumentValues()) {
-                System.out.println(s);
-            }
-            throw new ArgumentActionException();
+            System.out.println(argument);
+            Arrays.stream(argument.getArgumentValues()).forEach((e) -> System.out.println(e.getValue()));
         });
+
+        Argument argument2 = new Argument(new String[]{"--triangle"}, new ArgumentValue[]{new ArgumentValue(ArgumentValueType.STRING)});
+        argument2.setAction(() -> {
+            System.out.println(argument2);
+            Arrays.stream(argument2.getArgumentValues()).forEach((e) -> System.out.println(e.getValue()));
+        });
+
+
         ArgumentParser.addArgument(argument);
-        ArgumentParser.parseArgs(new String[]{"Amongus"});
+        ArgumentParser.addArgument(argument2);
+
+        ArgumentParser.parseArgs(new String[]{"--triangle", "SUSPICIOUS", "--rectangle", "50"});
         assertEquals(1,1);
     }
 

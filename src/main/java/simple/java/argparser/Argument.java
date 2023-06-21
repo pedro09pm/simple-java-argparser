@@ -1,17 +1,34 @@
 package simple.java.argparser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class Argument{
+public class Argument {
+    /**
+     * Arguments that cannot be present together. Example: --client --server
+     */
     private final ArrayList<Argument> mutuallyExclusiveArguments = new ArrayList<Argument>();
-    private String[] acceptedNames;
-    private int expectedArgumentValueCount;
-    private String[] argumentValues;
+    /**
+     * Arguments that must be present together. Example: --windowed --width 1920 --height 1080
+     */
+    private final ArrayList<Argument> requiredArguments = new ArrayList<Argument>();
+    /**
+     * Arguments names. Example: --width --w
+     */
+    private final String[] acceptedNames;
+    private final ArgumentValue[] argumentValues;
     private ArgumentAction action;
 
-    public Argument(String[] acceptedNames, int expectedArgumentCount) {
+    public Argument(String[] acceptedNames, ArgumentValue[] argumentValues) {
         this.acceptedNames = acceptedNames;
-        this.expectedArgumentValueCount = expectedArgumentCount;
+        this.argumentValues = argumentValues;
+    }
+
+    @Override
+    public String toString() {
+        return "Argument{" +
+                "acceptedNames=" + Arrays.toString(acceptedNames) +
+                '}';
     }
 
     public void addMutuallyExclusiveArgument(Argument argument) {
@@ -22,27 +39,35 @@ public class Argument{
         }
     }
 
+    public boolean isCompatibleWith(Argument argument) {
+        //if (this.equals(argument)) {return true;}
+        return !mutuallyExclusiveArguments.contains(argument);
+    }
+
+    public void addRequiredArgument(Argument argument) {
+        if (this.equals(argument)) {return;} // Why would anyone do this?
+        if (!requiredArguments.contains(argument)) {
+            requiredArguments.add(argument);
+        }
+    }
+
     public void setAction(ArgumentAction action) {
         this.action = action;
     }
 
-    public void executeAction() throws ArgumentActionException {
+    public void executeAction() throws ArgumentException {
         action.execute();
-    }
-
-    public void setArgumentValues(String[] argumentValues) {
-        this.argumentValues = argumentValues;
     }
 
     public String[] getAcceptedNames() {
         return acceptedNames;
     }
 
-    public int getExpectedArgumentValueCount() {
-        return expectedArgumentValueCount;
+    public ArgumentValue[] getArgumentValues() {
+        return argumentValues;
     }
 
-    public String[] getArgumentValues() {
-        return argumentValues;
+    public Object getArgumentValue(int index) {
+        return argumentValues[index].getValue();
     }
 }

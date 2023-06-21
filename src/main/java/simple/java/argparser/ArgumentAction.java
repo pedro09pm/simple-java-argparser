@@ -2,5 +2,5 @@ package simple.java.argparser;
 
 @FunctionalInterface
 public interface ArgumentAction {
-    void execute() throws ArgumentActionException;
+    void execute() throws ArgumentException;
 }
