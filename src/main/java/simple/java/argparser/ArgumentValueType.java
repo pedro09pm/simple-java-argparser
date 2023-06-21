@@ -7,7 +7,7 @@ public enum ArgumentValueType {
             try {
                 return Integer.parseInt(value);
             } catch (NumberFormatException e) {
-                throw new ArgumentException();
+                throw new ArgumentException("Argument value is not an Integer.");
             }
         }
     },
@@ -17,7 +17,7 @@ public enum ArgumentValueType {
             try {
                 return Float.parseFloat(value);
             } catch (NumberFormatException e) {
-                throw new ArgumentException();
+                throw new ArgumentException("Argument value is not a Float.");
             }
         }
     },
@@ -27,7 +27,7 @@ public enum ArgumentValueType {
             try {
                 return Double.parseDouble(value);
             } catch (NumberFormatException e) {
-                throw new ArgumentException();
+                throw new ArgumentException("Argument value is not a Double.");
             }
         }
     },
@@ -35,7 +35,7 @@ public enum ArgumentValueType {
         @Override
         public Object parseString(String value) throws ArgumentException {
             if (value.length() != 1) {
-                throw new ArgumentException();
+                throw new ArgumentException("Argument value is not a Character.");
             }
             return value.charAt(0);
         }
@@ -54,7 +54,7 @@ public enum ArgumentValueType {
             } else if (value.equalsIgnoreCase("false")) {
                 return false;
             } else {
-                throw new ArgumentException();
+                throw new ArgumentException("Argument value is not a boolean.");
             }
         }
     };

@@ -20,16 +20,13 @@ public class SimpleJavaArgparserTester {
             Arrays.stream(argument2.getArgumentValues()).forEach((e) -> System.out.println(e.getValue()));
         });
 
-
+        //argument.addMutuallyExclusiveArgument(argument2);
+        argument.addRequiredArgument(argument2);
         ArgumentParser.addArgument(argument);
         ArgumentParser.addArgument(argument2);
 
-        ArgumentParser.parseArgs(new String[]{"--triangle", "SUSPICIOUS", "--rectangle", "50"});
+        ArgumentParser.parseArgs(new String[]{"--triangle", "SUSPICIOUS", "--rectangle"});
         assertEquals(1,1);
-    }
-
-    public static void method() {
-        System.out.println("I'm a method :)");
     }
 
 }

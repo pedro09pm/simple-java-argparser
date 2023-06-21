@@ -2,6 +2,7 @@ package simple.java.argparser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 public class Argument {
     /**
@@ -40,8 +41,11 @@ public class Argument {
     }
 
     public boolean isCompatibleWith(Argument argument) {
-        //if (this.equals(argument)) {return true;}
         return !mutuallyExclusiveArguments.contains(argument);
+    }
+
+    public boolean hasRequirementsFullfilled(Collection<Argument> arguments) {
+        return arguments.containsAll(requiredArguments);
     }
 
     public void addRequiredArgument(Argument argument) {

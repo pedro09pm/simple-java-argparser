@@ -1,11 +1,15 @@
 package simple.java.argparser;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 public class ArgumentParser {
     private static final ArrayList<Argument> arguments = new ArrayList<Argument>();
-    private static String helpMessage = "A manual/help entry has not been set.";
+    private static String helpMessage = "";
 
     public static void setHelpMessage(String helpMessage) {
         ArgumentParser.helpMessage = helpMessage;
@@ -23,6 +27,7 @@ public class ArgumentParser {
                 argument.executeAction();
             });
         } catch (ArgumentException e) {
+            System.out.println("[Error] "+e.getMessage());
             System.out.println(helpMessage);
             System.exit(1);
         }
@@ -38,14 +43,15 @@ public class ArgumentParser {
             }
         }
         if (!isArgumentCombinationCompatible(specifiedArguments)) {
-            throw new ArgumentException();
+            throw new ArgumentException("Arguments are incompatible or there are unfulfilled required arguments.");
         }
         return specifiedArguments;
     }
 
     private static boolean isArgumentCombinationCompatible(Collection<Argument> arguments) {
         for (Argument argument: arguments) {
-            if (arguments.stream().allMatch(argument::isCompatibleWith)) {
+            if (arguments.stream().allMatch(argument::isCompatibleWith)
+                && argument.hasRequirementsFullfilled(arguments)) {
                 return true;
             }
         }
@@ -54,7 +60,7 @@ public class ArgumentParser {
 
     private static void setValues(Argument argument, String[] stringValues) throws ArgumentException {
         if (stringValues.length != argument.getArgumentValues().length) {
-            throw new ArgumentException();
+            throw new ArgumentException("Not enough argument values were provided.");
         }
 
         for (int i = 0; i<argument.getArgumentValues().length; i++) {
@@ -64,7 +70,7 @@ public class ArgumentParser {
 
     private static String[] getArgumentStringValues(Argument argument, String[] args) {
         ArrayList<String> stringValues = new ArrayList<String>();
-        Iterator argsIterator = Arrays.stream(args).iterator();
+        Iterator<String> argsIterator = Arrays.stream(args).iterator();
         int argumentsLeft = argument.getArgumentValues().length;
 
         while (argsIterator.hasNext()) {
