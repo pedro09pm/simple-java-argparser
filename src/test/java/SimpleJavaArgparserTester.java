@@ -25,7 +25,8 @@ public class SimpleJavaArgparserTester {
         ArgumentParser.addArgument(argument);
         ArgumentParser.addArgument(argument2);
 
-        ArgumentParser.parseArgs(new String[]{"--triangle", "SUSPICIOUS", "--rectangle"});
+        //ArgumentParser.parseArgs(new String[]{"--triangle", "SUSPICIOUS", "--rectangle"});
+        ArgumentParser.parseArgs(new String[]{"--triangle", "SUSPICIOUS", "--rectangle", "50"});
         assertEquals(1,1);
     }
 
