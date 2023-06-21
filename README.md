@@ -104,10 +104,27 @@ setWindowSizeArgument.addRequiredArgument(heightArgument);
 
 #### · ARGUMENT ACTIONS
 
+Argument actions follow the functional interface **ArgumentAction**. To make an argument execute some code when found
+we have to implement the method ourselves. We use the **setAction()** method.
 
+```java
+clientArgument.setAction(() -> {
+    System.out.println("Launching Client");
+    ApplicationClient.run();
+});
+```
 
 #### · RECOVERING ARGUMENT VALUES
 
+Let's say we're interested in recovering an argument value for the argument "--name".
+
+We use the **getArgumentValue()**, remember to **cast** the return.
+
+```java
+nameArgument.setAction(() -> {
+    System.out.println((String) nameArgument.getArgumentValue(0));
+});
+```
 
 
 #### · PARSING ARGUMENTS
