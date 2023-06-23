@@ -3,6 +3,8 @@ package simple.java.argparser;
 import java.io.File;
 
 /**
+ * The ArgumentValueType enum represents the possible types for argument values.
+ *
  * @author Pedro Marín Sanchis
  */
 public enum ArgumentValueType {
@@ -88,5 +90,12 @@ public enum ArgumentValueType {
         }
     };
 
+    /**
+     * Parses the string value into the corresponding object based on the argument value type.
+     *
+     * @param value The string value to be parsed.
+     * @return The parsed object.
+     * @throws ArgumentException If an error occurs during parsing.
+     */
     public abstract Object parseString(String value) throws ArgumentException;
 }
