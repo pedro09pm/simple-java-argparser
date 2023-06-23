@@ -1,5 +1,8 @@
 package simple.java.argparser;
 
+/**
+ * @author Pedro Marín Sanchis
+ */
 public class ArgumentValue {
     private Object value = null;
     private ArgumentValueType valueType = ArgumentValueType.STRING;

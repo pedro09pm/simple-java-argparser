@@ -4,21 +4,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+/**
+ * @author Pedro Marín Sanchis
+ */
 public class Argument {
-    /**
-     * Arguments that cannot be present together. Example: --client --server
-     */
+    /** Arguments that cannot be present together. Example: --client --server */
     private final ArrayList<Argument> mutuallyExclusiveArguments = new ArrayList<Argument>();
-    /**
-     * Arguments that must be present together. Example: --windowed --width 1920 --height 1080
-     */
+    /** Arguments that must be present together. Example: --windowed --width 1920 --height 1080 */
     private final ArrayList<Argument> requiredArguments = new ArrayList<Argument>();
-    /**
-     * Arguments names. Example: --width --w
-     */
+    /** Arguments names. Example: --width --w */
     private final String[] acceptedNames;
+    /** Required argument values. Example: --width 250 */
     private final ArgumentValue[] argumentValues;
-    private ArgumentAction action;
+    /** Action that is performed when the argument is included in the argument list. */
+    private ArgumentAction inclusionAction;
+    /** Action that is performed when the argument has not appeared in the argument list. */
+    private ArgumentAction exclusionAction;
 
     public Argument(String[] acceptedNames, ArgumentValue[] argumentValues) {
         this.acceptedNames = acceptedNames;
@@ -44,7 +45,7 @@ public class Argument {
         return !mutuallyExclusiveArguments.contains(argument);
     }
 
-    public boolean hasRequirementsFullfilled(Collection<Argument> arguments) {
+    public boolean hasRequirementsFulfilled(Collection<Argument> arguments) {
         return arguments.containsAll(requiredArguments);
     }
 
@@ -55,12 +56,20 @@ public class Argument {
         }
     }
 
-    public void setAction(ArgumentAction action) {
-        this.action = action;
+    public void setInclusionAction(ArgumentAction inclusionAction) {
+        this.inclusionAction = inclusionAction;
     }
 
-    public void executeAction() throws ArgumentException {
-        action.execute();
+    public void setExclusionAction(ArgumentAction exclusionAction) {
+        this.exclusionAction = exclusionAction;
+    }
+
+    public void executeStandardAction() throws ArgumentException {
+        inclusionAction.execute();
+    }
+
+    public void executeNonExecutionAction() throws ArgumentException {
+        exclusionAction.execute();
     }
 
     public String[] getAcceptedNames() {

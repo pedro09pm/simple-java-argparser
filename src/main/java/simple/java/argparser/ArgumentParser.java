@@ -7,6 +7,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ * @author Pedro Marín Sanchis
+ */
 public class ArgumentParser {
     private static final ArrayList<Argument> arguments = new ArrayList<Argument>();
     private static String helpMessage = "";
@@ -24,8 +27,13 @@ public class ArgumentParser {
             Collection<Argument> specifiedArguments = getSpecifiedArguments(args);
             specifiedArguments.forEach(argument -> {
                 setValues(argument, getArgumentStringValues(argument, args));
-                argument.executeAction();
+                argument.executeStandardAction();
             });
+            arguments.forEach((argument -> {
+                if (!specifiedArguments.contains(argument)) {
+                    argument.executeNonExecutionAction();
+                }
+            }));
         } catch (ArgumentException e) {
             System.out.println("[Error] "+e.getMessage());
             System.out.println(helpMessage);
@@ -51,7 +59,7 @@ public class ArgumentParser {
     private static boolean isArgumentCombinationCompatible(Collection<Argument> arguments) {
         for (Argument argument: arguments) {
             if (arguments.stream().allMatch(argument::isCompatibleWith)
-                && argument.hasRequirementsFullfilled(arguments)) {
+                && argument.hasRequirementsFulfilled(arguments)) {
                 return true;
             }
         }

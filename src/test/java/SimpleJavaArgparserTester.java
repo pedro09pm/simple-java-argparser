@@ -9,13 +9,13 @@ public class SimpleJavaArgparserTester {
     @Test
     public void testArgumentExecution() {
         Argument argument = new Argument(new String[]{"--rectangle"}, new ArgumentValue[]{new ArgumentValue(ArgumentValueType.INTEGER)});
-        argument.setAction(() -> {
+        argument.setInclusionAction(() -> {
             System.out.println(argument);
             Arrays.stream(argument.getArgumentValues()).forEach((e) -> System.out.println(e.getValue()));
         });
 
         Argument argument2 = new Argument(new String[]{"--triangle"}, new ArgumentValue[]{new ArgumentValue(ArgumentValueType.STRING)});
-        argument2.setAction(() -> {
+        argument2.setInclusionAction(() -> {
             System.out.println(argument2);
             Arrays.stream(argument2.getArgumentValues()).forEach((e) -> System.out.println(e.getValue()));
         });
