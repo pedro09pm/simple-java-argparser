@@ -14,6 +14,10 @@ public class SimpleJavaArgparserTester {
             Arrays.stream(argument.getArgumentValues()).forEach((e) -> System.out.println(e.getValue()));
         });
 
+        argument.setExclusionAction(() -> {
+            System.out.println(argument+" Excluded");
+        });
+
         Argument argument2 = new Argument(new String[]{"--triangle"}, new ArgumentValue[]{new ArgumentValue(ArgumentValueType.STRING)});
         argument2.setInclusionAction(() -> {
             System.out.println(argument2);
@@ -26,7 +30,7 @@ public class SimpleJavaArgparserTester {
         ArgumentParser.addArgument(argument2);
 
         //ArgumentParser.parseArgs(new String[]{"--triangle", "SUSPICIOUS", "--rectangle"});
-        ArgumentParser.parseArgs(new String[]{"--triangle", "SUSPICIOUS", "--rectangle", "50"});
+        ArgumentParser.parseArgs(new String[]{"--triangle", "SUSPICIOUS"});
         assertEquals(1,1);
     }
 
