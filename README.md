@@ -105,12 +105,22 @@ setWindowSizeArgument.addRequiredArgument(heightArgument);
 #### · ARGUMENT ACTIONS
 
 Argument actions follow the functional interface **ArgumentAction**. To make an argument execute some code when found
-we have to implement the method ourselves. We use the **setAction()** method.
+we have to implement the method ourselves. We use the **setInclusionAction()** method.
 
 ```java
-clientArgument.setAction(() -> {
+clientArgument.setInclusionAction(() -> {
     System.out.println("Launching Client");
     ApplicationClient.run();
+});
+```
+
+If we want to execute an action when **the argument has not appeared in the argument list** we can use the
+**setExclusionAction()** method.
+
+```java
+clientArgument.setExclusionAction(() -> {
+    System.out.println("Client was not specified");
+    // Some other code...
 });
 ```
 
