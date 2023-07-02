@@ -21,9 +21,15 @@ public class Argument {
     /** Required argument values. Example: --width 250 */
     private final ArgumentValue[] argumentValues;
     /** Action that is performed when the argument is included in the argument list. */
-    private ArgumentAction inclusionAction;
+    private ArgumentAction inclusionAction = new ArgumentAction() {
+        @Override
+        public void execute() throws ArgumentException {}
+    };
     /** Action that is performed when the argument has not appeared in the argument list. */
-    private ArgumentAction exclusionAction;
+    private ArgumentAction exclusionAction =  new ArgumentAction() {
+        @Override
+        public void execute() throws ArgumentException {}
+    };
 
     /**
      * Constructs an Argument object with the specified accepted names and argument values.
