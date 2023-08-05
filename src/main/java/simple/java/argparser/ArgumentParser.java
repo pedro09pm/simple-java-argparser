@@ -1,11 +1,6 @@
 package simple.java.argparser;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Pedro Marín Sanchis
@@ -88,6 +83,9 @@ public class ArgumentParser {
      * @return True if the combination of arguments is compatible, false otherwise.
      */
     private static boolean isArgumentCombinationCompatible(Collection<Argument> arguments) {
+        if (arguments.stream().allMatch(Objects::isNull)) {
+            return true;
+        }
         for (Argument argument: arguments) {
             if (arguments.stream().allMatch(argument::isCompatibleWith)
                 && argument.hasRequirementsFulfilled(arguments)) {
